@@ -1,7 +1,9 @@
+import Body from "./components/Body";
+
 function App() {
   return (
     <>
-      <p className="font-bold text-9xl">Hello StreamVerse</p>
+      <Body />
     </>
   )
 }
