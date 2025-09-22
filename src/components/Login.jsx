@@ -1,13 +1,27 @@
 import React, { useState } from 'react'
 import Header from './Header'
 import { NETFLIX_BG_IMG } from '../utils/constants'
+import { useRef } from 'react'
+import validate from '../utils/validate'
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
 
   const toggleSignIn = () => {
     setIsSignInForm(!isSignInForm);
   }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const email = emailRef.current.value;
+    const password = passwordRef.current.value;
+    const error = validate(email, password);
+    setErrorMessage(error);
+  }
+
   return (
     <div>
       <Header />
@@ -27,18 +41,22 @@ const Login = () => {
             <input 
               type='email' 
               placeholder='Email' 
+              ref={emailRef}
               className='w-full p-3 rounded bg-gray-800 focus:outline-none focus:ring-2 focus:ring-red-600' 
             />
             <input 
               type='password' 
               placeholder='Password' 
+              ref={passwordRef}
               className='w-full p-3 rounded bg-gray-800 focus:outline-none focus:ring-2 focus:ring-red-600' 
             />
+            <p className='text-md font-medium text-red-600'>{errorMessage}</p>
             <button 
               type='submit' 
-              className='w-full bg-red-600 hover:bg-red-700 p-3 rounded font-semibold'
+              className='w-full bg-red-600 hover:bg-red-700 p-2 rounded font-semibold cursor-pointer'
+              onClick={handleSubmit}
             >
-              Sign In
+              Submit
             </button>
 
             <p className='cursor-pointer' onClick={toggleSignIn}> {isSignInForm ? "New to netflix..? signup now" : "Already have account..! Signin now"}</p>

@@ -1,6 +1,12 @@
 # streamVerse
 
  - configured tailwind css
+ - Header
+ - Login form, signup form
+ - form validation, useRef hook
+ - form validation and useRef hook
+ - firebase setup
+ - deploying to production
 
  # features
    - Login or signup page
