@@ -3,6 +3,8 @@ import Header from './Header'
 import { NETFLIX_BG_IMG } from '../utils/constants'
 import { useRef } from 'react'
 import validate from '../utils/validate'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
+import { auth } from '../utils/firebase'
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
@@ -19,7 +21,45 @@ const Login = () => {
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
     const error = validate(email, password);
+    console.log(email + " " + password);
     setErrorMessage(error);
+    // if(error) return;
+
+    if(!isSignInForm){
+      createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed up 
+        const user = userCredential.user;
+        console.log(user);
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        setErrorMessage(errorCode + "-" + errorMessage);
+        // ..
+      });
+    } else{
+      signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in 
+        const user = userCredential.user;
+        console.log(user);
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        setErrorMessage(errorCode + "-" + errorMessage);
+      });
+
+    }
+
+    // if(isSignInForm){
+
+    // } else{
+    //    //signin logic
+    // }
   }
 
   return (
@@ -29,7 +69,7 @@ const Login = () => {
         <img src={NETFLIX_BG_IMG} alt='bg-img' className='-z-10'/>
       </div>  
       <div>
-        <form className='absolute w-3/12 my-36 bg-black/80 mx-auto right-0 left-0 p-12 rounded-lg flex flex-col gap-6 text-white'>
+        <form className='absolute w-3/12 my-36 bg-black/80 mx-auto right-0 left-0 p-12 rounded-lg flex flex-col gap-6 text-white' onSubmit={handleSubmit}>
             <h3 className='text-2xl font-bold'>{isSignInForm ? "Signin" : "Signup"}</h3>
             {!isSignInForm && 
             <input 
@@ -54,7 +94,6 @@ const Login = () => {
             <button 
               type='submit' 
               className='w-full bg-red-600 hover:bg-red-700 p-2 rounded font-semibold cursor-pointer'
-              onClick={handleSubmit}
             >
               Submit
             </button>
