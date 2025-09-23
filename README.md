@@ -8,6 +8,10 @@
  - firebase setup
  - deploying to production
  - create signup in firebase
+ - implemented signin user api
+ - created userSlice and configured redux store
+ - updated user
+ - fetch movies from tmdb
 
  # features
    - Login or signup page

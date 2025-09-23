@@ -3,14 +3,20 @@ import Header from './Header'
 import { NETFLIX_BG_IMG } from '../utils/constants'
 import { useRef } from 'react'
 import validate from '../utils/validate'
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile} from 'firebase/auth'
 import { auth } from '../utils/firebase'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { addUser } from '../utils/reduxSlices/userSlice'
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
+  const nameRef = useRef(null);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const toggleSignIn = () => {
     setIsSignInForm(!isSignInForm);
@@ -30,7 +36,20 @@ const Login = () => {
       .then((userCredential) => {
         // Signed up 
         const user = userCredential.user;
-        console.log(user);
+        updateProfile(auth.currentUser, {
+        displayName: nameRef.current.value, photoURL: "https://i.pinimg.com/1200x/66/44/44/664444fef498c86e5a8b1e71f3f830a4.jpg" 
+          }).then(() => {
+            // Profile updated!
+            const {displayName, email, photoURL, uid} = auth.currentUser;
+            dispatch(addUser({displayName: displayName, email: email, photoURL: photoURL, uid: uid}));
+             navigate("/browse");
+            // ...
+          }).catch((error) => {
+            // An error occurred
+            setErrorMessage(error.message)
+            // ...
+          });
+          console.log(user);
         // ...
       })
       .catch((error) => {
@@ -44,6 +63,7 @@ const Login = () => {
       .then((userCredential) => {
         // Signed in 
         const user = userCredential.user;
+        navigate("/browse");
         console.log(user);
         // ...
       })
@@ -54,12 +74,6 @@ const Login = () => {
       });
 
     }
-
-    // if(isSignInForm){
-
-    // } else{
-    //    //signin logic
-    // }
   }
 
   return (
@@ -76,6 +90,7 @@ const Login = () => {
               type='text' 
               placeholder='Name' 
               className='w-full p-3 rounded bg-gray-800 focus:outline-none focus:ring-2 focus:ring-red-600' 
+              ref={nameRef}
             />
             }
             <input 
