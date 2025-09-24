@@ -11,6 +11,7 @@
  - implemented signin user api
  - created userSlice and configured redux store
  - updated user
+ - fixed bug of only loggedin users can access browse page
  - fetch movies from tmdb
 
  # features

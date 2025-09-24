@@ -3,17 +3,34 @@ import { NETFLIX_LOGO, PROFILE_ICON } from "../utils/constants";
 import { auth } from "../utils/firebase";
 import { useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { addUser, removeUser } from "../utils/reduxSlices/userSlice";
+import { useEffect } from "react";
 
 const Header = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const user = useSelector((store) => store.user);
-  console.log(user)
+
+    useEffect(() => {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const {displayName, email, photoURL, uid} = user
+        dispatch(addUser({displayName: displayName, email: email, photoURL: photoURL, uid: uid}))
+        navigate("/browse");
+      } else {
+        // console.log("User signed out");
+        dispatch(removeUser());
+        navigate('/');
+      }
+    });
+  }, []);
 
   const handleSignOut = () => {
     signOut(auth)
       .then(() => {
-        navigate("/");
       })
       .catch((error) => {
         console.error("Error signing out:", error);
