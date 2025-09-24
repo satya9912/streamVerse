@@ -9,14 +9,13 @@ export const NETFLIX_BG_IMG =
 
 export const USER_AVATAR = "https://i.pinimg.com/1200x/66/44/44/664444fef498c86e5a8b1e71f3f830a4.jpg";
 
-// export const API_OPTIONS = {
-//   method: "GET",
-//   headers: {
-//     accept: "application/json",
-//     Authorization:
-//       `Bearer ${process.env.REACT_APP_TMDB_KEY}`
-//   },
-// };
+export const API_OPTIONS = {
+  method: 'GET',
+  headers: {
+    accept: 'application/json',
+    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkZTliN2M1M2VmNWUyYzcwNDBkOGMzNTBiYmNmMjU3NCIsIm5iZiI6MTc1ODczMDgwOS45MjIsInN1YiI6IjY4ZDQxYTM5NTg0YzBmZWJlNTFmOTAyYyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Zkl1oB_KtcnotIEEQQa3R0qWy6Wrf4-52I2fRW-3XCI'
+  }
+};
 
 // export const IMAGE_CDN_URL = "https://image.tmdb.org/t/p/w500/";
 
