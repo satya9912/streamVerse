@@ -11,10 +11,11 @@ const MainContainer = () => {
     const movie = movies[1];
     console.log(movie);
   return (
-    <div className='pt-32'>
-        <VideoTitle movie={movie}/>
-        <VideoBackground />
-    </div>
+    <div className="pt-18">
+    <VideoTitle movie={movie} />
+    <VideoBackground movieId={movie.id} />
+   </div>
+
   )
 }
 

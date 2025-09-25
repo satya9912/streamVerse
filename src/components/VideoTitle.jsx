@@ -4,7 +4,7 @@ const VideoTitle = ({movie}) => {
   const {original_title, overview} = movie
   console.log(original_title)
   return (
-    <div className="bg-black text-white p-8">
+    <div className="bg-gradient-to-r to-black text-white absolute w-screen aspect-video pt-[15%] pl-[5%]">
         <h3 className="text-4xl font-extrabold drop-shadow-lg mb-4">{original_title}</h3>
         <p className="w-1/2 text-gray-200 text-lg mb-6 line-clamp-3">{overview}</p>
         <div className="flex space-x-4">
